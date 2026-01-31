@@ -2,6 +2,8 @@
 
 > *"To err is human, same with antennas"*
 
+**Developed by Arpan Pal** 
+
 A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and/or amplitude errors into your data for visualization and testing.
 
 ## Installation

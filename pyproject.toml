@@ -10,7 +10,7 @@ readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
 authors = [
-    {name = "to_err_is_antenna contributors"}
+    {name = "Arpan Pal"}
 ]
 keywords = [
     "radio astronomy",
@@ -54,10 +54,10 @@ dev = [
 corruptms = "to_err_is_antenna.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/to_err_is_antenna"
-Documentation = "https://github.com/yourusername/to_err_is_antenna#readme"
-Repository = "https://github.com/yourusername/to_err_is_antenna.git"
-Issues = "https://github.com/yourusername/to_err_is_antenna/issues"
+Homepage = "https://github.com/arpan-52/to_err_is_antenna"
+Documentation = "https://github.com/arpan-52/to_err_is_antenna#readme"
+Repository = "https://github.com/arpan-52/to_err_is_antenna.git"
+Issues = "https://github.com/arpan-52/to_err_is_antenna/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
