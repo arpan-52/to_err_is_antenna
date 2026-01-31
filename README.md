@@ -1,8 +1,8 @@
 # to_err_is_antenna 
 
-> *"To err is human, to corrupt visibilities is antenna"*
+> *"To err is human, same with antennas"*
 
-A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and amplitude errors into your data for visualization and testing. Inject Phase errors, amplitude errors, or both
+A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and/or amplitude errors into your data for visualization and testing.
 
 ## Installation
 
@@ -269,7 +269,3 @@ seed: 42  # Same seed = same random errors
 ## License
 
 MIT License - see LICENSE file.
-
-## Contributing
-
-Contributions welcome! Please open an issue or PR on GitHub.
