@@ -1,17 +1,8 @@
-# to_err_is_antenna 📡
+# to_err_is_antenna 
 
 > *"To err is human, to corrupt visibilities is antenna"*
 
-A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and amplitude errors into your data for testing calibration pipelines.
-
-## Features
-
-- **Controlled error injection**: Phase errors, amplitude errors, or both
-- **Flexible selection**: Target specific antennas, baselines, SPWs, channels, scans, and time ranges
-- **Complete data output**: Writes ALL visibilities (corrupted + unchanged) to output column
-- **Memory efficient**: Chunked processing for large datasets
-- **CASA-compatible**: Uses standard CASA selection syntax
-- **Progress bar**: Visual feedback for long-running operations
+A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and amplitude errors into your data for visualization and testing. Inject Phase errors, amplitude errors, or both
 
 ## Installation
 
@@ -211,36 +202,6 @@ The tool writes **complete data** to the output column:
 - **Selected visibilities**: Corrupted according to error model
 - **Non-selected visibilities**: Copied unchanged from input column
 
-This ensures the output column contains valid, complete data that can be used directly for further processing.
-
-### Example Workflow
-
-```yaml
-# Config: corrupt only antenna C04 baselines with 10% phase error
-input_ms: /data/observation.ms
-affect: phase_error
-quantify_error: 10
-antennas: C04
-input_column: DATA
-output_column: CORRECTED_DATA
-```
-
-Result in `CORRECTED_DATA`:
-- Baselines with C04: Original data + random phase errors (±18°)
-- All other baselines: Exact copy of original data
-
-## CLI Usage
-
-```bash
-corruptms config.yaml              # Run corruption
-corruptms config.yaml -v           # Verbose output  
-corruptms config.yaml -q           # Quiet mode (no progress bar)
-corruptms --generate-config        # Create example config.yaml
-corruptms --version                # Show version
-```
-
-All corruption parameters must be specified in the config file.
-
 ## Python API
 
 ```python
@@ -265,30 +226,6 @@ corruptor = VisibilityCorruptor(config)
 stats = corruptor.run()
 
 print(f"Corrupted {stats['visibilities_corrupted']} of {stats['total_visibilities']} visibilities")
-```
-
-## Memory Management
-
-The tool processes data in chunks to handle large MS files:
-
-```yaml
-chunk_size_mb: 512  # Use ~512 MB RAM per chunk
-```
-
-For a 100 GB MS with 1024 channels and 4 correlations:
-- Each row ≈ 32 KB (complex64)
-- 512 MB chunk ≈ 16,000 rows
-- Entire MS processed with minimal memory footprint
-
-## Examples
-
-### Corrupt all data with phase errors
-
-```yaml
-input_ms: /data/vla_obs.ms
-affect: phase_error
-quantify_error: 5
-# No selections = corrupt everything
 ```
 
 ### Corrupt specific baseline pair only
