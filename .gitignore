@@ -25,6 +25,8 @@ wheels/
 *.egg
 3C286.cl
 vla*
+.codex 
+config*
 
 # PyInstaller
 *.manifest
