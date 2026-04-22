@@ -19,7 +19,7 @@ The configuration API is now rule-based only.
 
 ```bash
 # From source
-git clone https://github.com/yourusername/to_err_is_antenna.git
+git clone https://github.com/arpan-52/to_err_is_antenna.git
 cd to_err_is_antenna
 pip install -e .
 ```
