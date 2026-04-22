@@ -14,7 +14,7 @@ import logging
 
 from tqdm import tqdm
 
-from .config import CorruptionConfig
+from .config import CorruptionConfig, CorruptionRule
 from .selectors import SelectionParser, SPWSelection, TimeSelection
 
 # Try to import casacore
@@ -34,6 +34,18 @@ class ChunkInfo:
     start_row: int
     end_row: int  # exclusive
     n_rows: int
+
+
+@dataclass
+class ParsedCorruptionRule:
+    """A corruption rule with parsed selection state ready for matching."""
+
+    rule: CorruptionRule
+    single_antennas: Set[int]
+    baseline_pairs: Set[Tuple[int, int]]
+    spw_selections: List[SPWSelection]
+    scan_selection: Set[int]
+    time_selection: Optional[TimeSelection]
 
 
 class VisibilityCorruptor:
@@ -76,13 +88,10 @@ class VisibilityCorruptor:
         self._n_channels: int = 0
         self._n_correlations: int = 0
         self._data_shape: Tuple[int, ...] = ()
+        self._ddid_to_spw: Dict[int, int] = {}
         
         # Parsed selections
-        self._single_antennas: Set[int] = set()
-        self._baseline_pairs: Set[Tuple[int, int]] = set()
-        self._spw_selections: List[SPWSelection] = []
-        self._scan_selection: Set[int] = set()
-        self._time_selection: Optional[TimeSelection] = None
+        self._rules: List[ParsedCorruptionRule] = []
         
         # Statistics
         self.stats = {
@@ -103,6 +112,14 @@ class VisibilityCorruptor:
         ant_table = table(str(self.config.input_ms / "ANTENNA"), readonly=True)
         self._antenna_names = list(ant_table.getcol("NAME"))
         ant_table.close()
+
+        ddid_table = table(str(self.config.input_ms / "DATA_DESCRIPTION"), readonly=True)
+        spw_ids = ddid_table.getcol("SPECTRAL_WINDOW_ID")
+        self._ddid_to_spw = {
+            ddid: int(spw_id)
+            for ddid, spw_id in enumerate(spw_ids)
+        }
+        ddid_table.close()
         
         # Get data shape from first row
         if self._n_rows > 0:
@@ -120,30 +137,28 @@ class VisibilityCorruptor:
             self._ms.close()
             self._ms = None
     
-    def _parse_selections(self) -> None:
-        """Parse all selection parameters."""
-        # Antenna selection
-        self._single_antennas, self._baseline_pairs = SelectionParser.parse_antennas(
-            self.config.antennas, self._antenna_names
-        )
-        
-        if self._single_antennas or self._baseline_pairs:
-            logger.info(f"Antenna selection: single={self._single_antennas}, pairs={self._baseline_pairs}")
-        
-        # SPW selection
-        self._spw_selections = SelectionParser.parse_spw(self.config.spw)
-        if self._spw_selections:
-            logger.info(f"SPW selection: {self._spw_selections}")
-        
-        # Scan selection
-        self._scan_selection = SelectionParser.parse_scan(self.config.scan)
-        if self._scan_selection:
-            logger.info(f"Scan selection: {self._scan_selection}")
-        
-        # Time selection
-        self._time_selection = SelectionParser.parse_time(self.config.time)
-        if self._time_selection:
-            logger.info(f"Time selection: {self._time_selection}")
+    def _parse_rules(self) -> None:
+        """Parse selections for all configured rules."""
+        self._rules = []
+
+        for idx, rule in enumerate(self.config.rules, start=1):
+            single_antennas, baseline_pairs = SelectionParser.parse_antennas(
+                rule.antennas, self._antenna_names
+            )
+            spw_selections = SelectionParser.parse_spw(rule.spw)
+            scan_selection = SelectionParser.parse_scan(rule.scan)
+            time_selection = SelectionParser.parse_time(rule.time)
+
+            parsed_rule = ParsedCorruptionRule(
+                rule=rule,
+                single_antennas=single_antennas,
+                baseline_pairs=baseline_pairs,
+                spw_selections=spw_selections,
+                scan_selection=scan_selection,
+                time_selection=time_selection,
+            )
+            self._rules.append(parsed_rule)
+            logger.info(f"Rule {idx}: {rule.describe()}")
     
     def _calculate_chunk_size(self) -> int:
         """Calculate optimal chunk size based on RAM limit."""
@@ -182,56 +197,48 @@ class VisibilityCorruptor:
         
         return chunks
     
-    def _apply_phase_error(self, data: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    def _apply_phase_error(self, data: np.ndarray, mask: np.ndarray, phase_error_deg: float) -> np.ndarray:
         """
         Apply phase error to visibility data.
-        
-        The error is a random phase offset scaled by quantify_error percentage.
-        E.g., 10% means phase offset uniformly distributed in [-36, +36] degrees.
+
+        Applies a deterministic additive phase offset to selected visibilities.
         """
-        # Generate random phase errors for masked visibilities
-        error_scale = self.config.quantify_error / 100.0 * 2 * np.pi
-        phase_errors = self.rng.uniform(-error_scale, error_scale, size=data.shape)
-        
-        # Apply only to masked elements
-        phase_errors = np.where(mask, phase_errors, 0)
-        
-        # Apply phase rotation: data * exp(i * phase_error)
-        corrupted = data * np.exp(1j * phase_errors)
-        
+        phase_error_rad = np.deg2rad(phase_error_deg)
+        phase_factors = np.where(mask, np.exp(1j * phase_error_rad), 1.0 + 0.0j)
+        corrupted = data * phase_factors
         return corrupted
     
-    def _apply_amp_error(self, data: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    def _apply_amp_error(self, data: np.ndarray, mask: np.ndarray, amp_error_pct: float) -> np.ndarray:
         """
         Apply amplitude error to visibility data.
-        
-        The error multiplies amplitude by (1 + random * quantify_error/100).
-        E.g., 10% means amplitude scaled by factor in [0.9, 1.1].
+
+        Applies a deterministic multiplicative amplitude scale to selected visibilities.
         """
-        error_scale = self.config.quantify_error / 100.0
-        amp_factors = 1.0 + self.rng.uniform(-error_scale, error_scale, size=data.shape)
-        
-        # Apply only to masked elements
-        amp_factors = np.where(mask, amp_factors, 1.0)
-        
+        amp_factors = np.where(mask, 1.0 + amp_error_pct / 100.0, 1.0)
         corrupted = data * amp_factors
-        
         return corrupted
-    
-    def _apply_errors(self, data: np.ndarray, mask: np.ndarray) -> np.ndarray:
-        """Apply configured error type(s) to data."""
-        if self.config.affect == "phase_error":
-            return self._apply_phase_error(data, mask)
-        elif self.config.affect == "amp_error":
-            return self._apply_amp_error(data, mask)
-        elif self.config.affect == "both_error":
-            data = self._apply_phase_error(data, mask)
-            data = self._apply_amp_error(data, mask)
-            return data
-        else:
-            raise ValueError(f"Unknown affect type: {self.config.affect}")
-    
-    def _get_channel_mask(self, spw_id: int) -> np.ndarray:
+
+    @staticmethod
+    def _apply_rule_errors(
+        data: np.ndarray,
+        mask: np.ndarray,
+        rule: CorruptionRule,
+    ) -> np.ndarray:
+        """Apply one rule's configured error(s) to selected visibilities."""
+        corrupted = data
+
+        if rule.phase_error_deg is not None:
+            phase_error_rad = np.deg2rad(rule.phase_error_deg)
+            phase_factors = np.where(mask, np.exp(1j * phase_error_rad), 1.0 + 0.0j)
+            corrupted = corrupted * phase_factors
+
+        if rule.amp_error_pct is not None:
+            amp_factors = np.where(mask, 1.0 + rule.amp_error_pct / 100.0, 1.0)
+            corrupted = corrupted * amp_factors
+
+        return corrupted
+
+    def _get_channel_mask(self, spw_id: int, spw_selections: List[SPWSelection]) -> np.ndarray:
         """Get channel mask for a given SPW ID.
         
         Returns a boolean mask indicating which channels should be corrupted.
@@ -241,14 +248,14 @@ class VisibilityCorruptor:
         """
         mask = np.zeros(self._n_channels, dtype=bool)
         
-        if not self._spw_selections:
+        if not spw_selections:
             # No SPW selection = corrupt all channels in all SPWs
             mask[:] = True
             return mask
         
         # Check if this SPW is in our selection
         spw_found = False
-        for sel in self._spw_selections:
+        for sel in spw_selections:
             if sel.spw_id == spw_id:
                 spw_found = True
                 sel_mask = sel.channel_mask(self._n_channels)
@@ -257,26 +264,31 @@ class VisibilityCorruptor:
         # If this SPW wasn't in selection, mask stays all False (no corruption)
         return mask
     
-    def _check_time_match(self, time_mjd: float, scan_start_mjd: Optional[float] = None) -> bool:
+    @staticmethod
+    def _check_time_match(
+        time_selection: Optional[TimeSelection],
+        time_mjd: float,
+        scan_start_mjd: Optional[float] = None,
+    ) -> bool:
         """Check if a time matches the time selection."""
-        if self._time_selection is None:
+        if time_selection is None:
             return True
         
-        if self._time_selection.is_relative:
+        if time_selection.is_relative:
             if scan_start_mjd is None:
                 return True  # Can't check relative without scan start
             
-            # Convert MJD seconds to offset
-            offset_sec = (time_mjd - scan_start_mjd) * 86400.0
+            # TIME values are already stored in seconds.
+            offset_sec = time_mjd - scan_start_mjd
             
-            return (self._time_selection.start_relative_sec <= offset_sec <= 
-                    self._time_selection.end_relative_sec)
+            return (time_selection.start_relative_sec <= offset_sec <=
+                    time_selection.end_relative_sec)
         else:
             # UTC comparison
             # MJD to datetime conversion
-            time_dt = self._mjd_to_datetime(time_mjd)
-            return (self._time_selection.start_utc <= time_dt <= 
-                    self._time_selection.end_utc)
+            time_dt = VisibilityCorruptor._mjd_to_datetime(time_mjd)
+            return (time_selection.start_utc <= time_dt <=
+                    time_selection.end_utc)
     
     @staticmethod
     def _mjd_to_datetime(mjd: float) -> datetime:
@@ -323,49 +335,51 @@ class VisibilityCorruptor:
         scans = self._ms.getcol("SCAN_NUMBER", startrow=chunk.start_row, nrow=chunk.n_rows)
         data_desc_ids = self._ms.getcol("DATA_DESC_ID", startrow=chunk.start_row, nrow=chunk.n_rows)
         
-        # Initialize corruption mask (rows x channels x correlations)
-        # True = this visibility will be corrupted, False = copied unchanged
-        corruption_mask = np.zeros(data.shape, dtype=bool)
-        rows_corrupted = 0
-        
-        for i in range(chunk.n_rows):
-            row_ant1 = ant1[i]
-            row_ant2 = ant2[i]
-            row_scan = scans[i]
-            row_time = times[i]
-            row_ddid = data_desc_ids[i]
-            
-            # Check antenna selection
-            if not SelectionParser.baseline_matches(
-                row_ant1, row_ant2, self._single_antennas, self._baseline_pairs
-            ):
+        corrupted_data = data.copy()
+        total_mask = np.zeros(data.shape, dtype=bool)
+        rows_corrupted_mask = np.zeros(chunk.n_rows, dtype=bool)
+
+        for parsed_rule in self._rules:
+            rule_mask = np.zeros(data.shape, dtype=bool)
+
+            for i in range(chunk.n_rows):
+                row_ant1 = ant1[i]
+                row_ant2 = ant2[i]
+                row_scan = scans[i]
+                row_time = times[i]
+                row_ddid = int(data_desc_ids[i])
+
+                if not SelectionParser.baseline_matches(
+                    row_ant1,
+                    row_ant2,
+                    parsed_rule.single_antennas,
+                    parsed_rule.baseline_pairs,
+                ):
+                    continue
+
+                if parsed_rule.scan_selection and row_scan not in parsed_rule.scan_selection:
+                    continue
+
+                scan_start = scan_start_times.get(row_scan)
+                if not self._check_time_match(parsed_rule.time_selection, row_time, scan_start):
+                    continue
+
+                if row_ddid not in self._ddid_to_spw:
+                    raise ValueError(f"Unknown DATA_DESC_ID encountered: {row_ddid}")
+
+                row_spw = self._ddid_to_spw[row_ddid]
+                channel_mask = self._get_channel_mask(row_spw, parsed_rule.spw_selections)
+                if not np.any(channel_mask):
+                    continue
+
+                rule_mask[i, channel_mask, :] = True
+
+            if not np.any(rule_mask):
                 continue
-            
-            # Check scan selection
-            if self._scan_selection and row_scan not in self._scan_selection:
-                continue
-            
-            # Check time selection
-            scan_start = scan_start_times.get(row_scan)
-            if not self._check_time_match(row_time, scan_start):
-                continue
-            
-            # Get channel mask for this SPW
-            # Note: DATA_DESC_ID maps to SPW, for simplicity we use it directly
-            # In a real implementation, you'd query the DATA_DESCRIPTION subtable
-            channel_mask = self._get_channel_mask(row_ddid)
-            
-            # If no channels selected for this SPW, skip this row
-            if not np.any(channel_mask):
-                continue
-            
-            # Mark this row's selected channels for corruption
-            corruption_mask[i, channel_mask, :] = True
-            rows_corrupted += 1
-        
-        # Apply errors ONLY where mask is True
-        # Where mask is False, data remains unchanged
-        corrupted_data = self._apply_errors(data, corruption_mask)
+
+            corrupted_data = self._apply_rule_errors(corrupted_data, rule_mask, parsed_rule.rule)
+            total_mask |= rule_mask
+            rows_corrupted_mask |= np.any(rule_mask, axis=(1, 2))
         
         # Write ALL data to output column (corrupted + unchanged)
         self._ms.putcol(
@@ -376,22 +390,30 @@ class VisibilityCorruptor:
         )
         
         # Update statistics
-        self.stats['visibilities_corrupted'] += int(np.sum(corruption_mask))
+        self.stats['visibilities_corrupted'] += int(np.sum(total_mask))
         self.stats['total_visibilities'] += data.size
         
-        return rows_corrupted
+        return int(np.sum(rows_corrupted_mask))
     
-    def _get_scan_start_times(self) -> Dict[int, float]:
+    def _get_scan_start_times(self, rows_per_chunk: int) -> Dict[int, float]:
         """Get the start time for each scan."""
         scan_starts: Dict[int, float] = {}
-        
-        # Query unique scans and their minimum times
-        scans = self._ms.getcol("SCAN_NUMBER")
-        times = self._ms.getcol("TIME")
-        
-        for scan in np.unique(scans):
-            scan_mask = scans == scan
-            scan_starts[int(scan)] = float(times[scan_mask].min())
+
+        start_row = 0
+        while start_row < self._n_rows:
+            n_rows = min(rows_per_chunk, self._n_rows - start_row)
+            scans = self._ms.getcol("SCAN_NUMBER", startrow=start_row, nrow=n_rows)
+            times = self._ms.getcol("TIME", startrow=start_row, nrow=n_rows)
+
+            for scan in np.unique(scans):
+                scan_mask = scans == scan
+                min_time = float(times[scan_mask].min())
+                scan_id = int(scan)
+                current = scan_starts.get(scan_id)
+                if current is None or min_time < current:
+                    scan_starts[scan_id] = min_time
+
+            start_row += n_rows
         
         return scan_starts
     
@@ -406,18 +428,19 @@ class VisibilityCorruptor:
             Dictionary with processing statistics
         """
         logger.info("Starting visibility corruption")
-        logger.info(f"Error type: {self.config.affect}, magnitude: {self.config.quantify_error}%")
+        logger.info(f"Configured rules: {len(self.config.rules)}")
         
         try:
             self._open_ms()
-            self._parse_selections()
+            self._parse_rules()
             self._ensure_output_column_exists()
-            
-            # Get scan start times for relative time selection
-            scan_start_times = self._get_scan_start_times()
             
             # Calculate chunk size and generate chunks
             chunk_size = self._calculate_chunk_size()
+            
+            # TIME/SCAN metadata is small, so use a larger floor to avoid
+            # pathological one-row reads when visibility chunks are tiny.
+            scan_start_times = self._get_scan_start_times(max(chunk_size, 100_000))
             chunks = self._generate_chunks(chunk_size)
             
             logger.info(f"Processing {self._n_rows} rows in {len(chunks)} chunks")

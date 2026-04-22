@@ -23,6 +23,10 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+3C286.cl
+vla*
+.codex 
+config*
 
 # PyInstaller
 *.manifest

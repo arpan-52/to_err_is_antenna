@@ -107,10 +107,11 @@ def main() -> int:
         print("CORRUPTION COMPLETE")
         print("=" * 50)
         print(f"Input MS:           {config.input_ms}")
-        print(f"Error type:         {config.affect}")
-        print(f"Error magnitude:    {config.quantify_error}%")
+        print(f"Rules configured:   {len(config.rules)}")
         print(f"Input column:       {config.input_column}")
         print(f"Output column:      {config.output_column}")
+        for idx, rule in enumerate(config.rules, start=1):
+            print(f"Rule {idx}:            {rule.describe()}")
         print("-" * 50)
         print(f"Rows processed:     {stats['rows_processed']:,}")
         print(f"Rows corrupted:     {stats['rows_corrupted']:,}")
