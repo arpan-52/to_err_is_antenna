@@ -6,6 +6,15 @@
 
 A visibility error simulator for radio interferometry Measurement Sets (MS). Inject controlled phase and/or amplitude errors into your data for visualization and testing.
 
+## Breaking Change
+
+The configuration API is now rule-based only.
+
+- `affect` is no longer supported
+- `quantify_error` is no longer supported
+- every config must define a non-empty `rules:` list
+- every rule must define at least one of `phase_error_deg` or `amp_error_pct`
+
 ## Installation
 
 ```bash
@@ -37,13 +46,14 @@ This creates `config.yaml` with all available options documented.
 
 ```yaml
 input_ms: /path/to/your/data.ms
-affect: phase_error
-quantify_error: 10  # 10% error
+rules:
+  - antennas: C04&C05
+    phase_error_deg: 10
 
-# Optional selections (omit to apply to ALL data)
-antennas: C04,C06        # Corrupt baselines involving these antennas
-spw: "0:120~150"         # SPW 0, channels 120-150
-scan: "1,2,3"            # Only these scans
+  - antennas: C06
+    amp_error_pct: 5
+    spw: "0:120~150"
+    scan: "1,2,3"
 ```
 
 ### 3. Run corruption
@@ -54,54 +64,50 @@ corruptms config.yaml
 
 ## Error Models
 
-The tool introduces errors by modifying visibility data. The `quantify_error` parameter controls the error magnitude as a percentage.
+The tool introduces deterministic errors by modifying visibility data according to the configured rules.
 
-### Phase Error (`affect: phase_error`)
+### Phase Error (`phase_error_deg`)
 
-Adds a random phase rotation to each selected visibility:
+Adds a fixed phase rotation to each selected visibility:
 
 ```
 V_corrupted = V_original × exp(i × φ)
 ```
 
 Where:
-- `φ` is a random phase offset
-- `φ` is uniformly distributed in the range `[-π × (quantify_error/100), +π × (quantify_error/100)]`
+- `φ` is a fixed phase offset in degrees from the config
 
-**Example**: With `quantify_error: 10`, phase offsets range from **-18° to +18°** (i.e., ±10% of 180°).
+**Example**: With `phase_error_deg: 10`, the selected visibilities get `phase = phase + 10°`.
 
 **Physical interpretation**: Simulates phase errors from atmospheric fluctuations, instrumental delays, or clock offsets.
 
-### Amplitude Error (`affect: amp_error`)
+### Amplitude Error (`amp_error_pct`)
 
-Scales each selected visibility's amplitude by a random factor:
+Scales each selected visibility's amplitude by a fixed percentage:
 
 ```
 V_corrupted = V_original × (1 + ε)
 ```
 
 Where:
-- `ε` is a random scaling factor
-- `ε` is uniformly distributed in the range `[-(quantify_error/100), +(quantify_error/100)]`
+- `ε` is the configured fractional scaling
 
-**Example**: With `quantify_error: 10`, amplitudes are scaled by factors between **0.9× and 1.1×**.
+**Example**: With `amp_error_pct: 10`, amplitudes are scaled by **1.10×**.
 
 **Physical interpretation**: Simulates gain errors from receiver instabilities, pointing errors, or bandpass variations.
 
-### Combined Error (`affect: both_error`)
+### Combined Error
 
-Applies both phase and amplitude errors sequentially:
+Applies both phase and amplitude errors sequentially when both are present in the same rule:
 
 ```
 V_corrupted = V_original × (1 + ε) × exp(i × φ)
 ```
 
-Both `ε` and `φ` are independent random values drawn from their respective distributions.
-
 ### Important Notes
 
-1. **Random per visibility**: Each visibility gets an independent random error value
-2. **Reproducibility**: Set `seed` in config for reproducible results
+1. **Per-rule behavior**: Each rule applies its own fixed phase/amplitude settings to its matching visibilities
+2. **Rule stacking**: If multiple rules match the same visibility, they are applied in config order
 3. **Complete output**: The output column contains ALL data - corrupted visibilities where selection matches, unchanged visibilities elsewhere
 
 ## Configuration Reference
@@ -111,12 +117,9 @@ Both `ε` and `φ` are independent random values drawn from their respective dis
 | Parameter | Description | Example |
 |-----------|-------------|---------|
 | `input_ms` | Path to Measurement Set | `/data/obs.ms` |
-| `affect` | Error type: `phase_error`, `amp_error`, or `both_error` | `phase_error` |
-| `quantify_error` | Error magnitude as percentage (0-100) | `10` |
+| `rules` | List of corruption rules | See below |
 
-### Selection Parameters (Optional)
-
-Leave these commented out to apply corruption to ALL data.
+### Rule Parameters
 
 | Parameter | Description | Example |
 |-----------|-------------|---------|
@@ -124,6 +127,8 @@ Leave these commented out to apply corruption to ALL data.
 | `spw` | Spectral window + channels | `0:120~150` |
 | `scan` | Scan numbers | `1,2,3` or `1~5` |
 | `time` | Time range | `30m~40m` or UTC range |
+| `phase_error_deg` | Additive phase offset in degrees | `10` |
+| `amp_error_pct` | Amplitude scale in percent | `5` |
 
 ### Column Parameters
 
@@ -137,7 +142,7 @@ Leave these commented out to apply corruption to ALL data.
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `chunk_size_mb` | `512` | RAM limit per chunk in MB |
-| `seed` | None | Random seed for reproducibility |
+| `seed` | None | Random seed stored in config; currently not used by deterministic rule application |
 
 ## Selection Syntax
 
@@ -145,13 +150,17 @@ Leave these commented out to apply corruption to ALL data.
 
 ```yaml
 # All baselines involving C04 and C06
-antennas: C04,C06
+rules:
+  - antennas: C04,C06
+    phase_error_deg: 10
 
 # Only the C04-C05 baseline
-antennas: C04&C05
+  - antennas: C04&C05
+    phase_error_deg: 10
 
 # Mixed: C04 all baselines + C05-C06 specific baseline
-antennas: C04,C05&C06
+  - antennas: C04,C05&C06
+    amp_error_pct: 5
 ```
 
 ### SPW/Channel Selection
@@ -208,7 +217,7 @@ The tool writes **complete data** to the output column:
 
 ```python
 from pathlib import Path
-from to_err_is_antenna import VisibilityCorruptor, CorruptionConfig
+from to_err_is_antenna import VisibilityCorruptor, CorruptionConfig, CorruptionRule
 
 # From YAML
 config = CorruptionConfig.from_yaml("config.yaml")
@@ -216,10 +225,17 @@ config = CorruptionConfig.from_yaml("config.yaml")
 # Or build programmatically
 config = CorruptionConfig(
     input_ms=Path("/data/obs.ms"),
-    affect="phase_error",
-    quantify_error=10.0,
-    antennas="C04,C06",
-    spw="0:120~150",
+    rules=[
+        CorruptionRule(
+            antennas="C04&C05",
+            phase_error_deg=10,
+        ),
+        CorruptionRule(
+            antennas="C06",
+            amp_error_pct=5,
+            spw="0:120~150",
+        ),
+    ],
     seed=42
 )
 
@@ -234,38 +250,30 @@ print(f"Corrupted {stats['visibilities_corrupted']} of {stats['total_visibilitie
 
 ```yaml
 input_ms: /data/vla_obs.ms
-affect: phase_error
-quantify_error: 5
-antennas: ea01&ea02
+rules:
+  - antennas: ea01&ea02
+    phase_error_deg: 5
 ```
 
 ### Simulate bandpass error on specific channels
 
 ```yaml
 input_ms: /data/alma_obs.ms
-affect: amp_error
-quantify_error: 8
-spw: "0:500~600,1:500~600"
-scan: "1~10"
+rules:
+  - amp_error_pct: 8
+    spw: "0:500~600,1:500~600"
+    scan: "1~10"
 ```
 
 ### Time-variable corruption
 
 ```yaml
 input_ms: /data/long_obs.ms
-affect: both_error
-quantify_error: 10
-time: "30m~45m"  # Only corrupt 30-45 min after scan start
-antennas: C04,C07,C12
-```
-
-### Reproducible corruption
-
-```yaml
-input_ms: /data/test.ms
-affect: phase_error
-quantify_error: 10
-seed: 42  # Same seed = same random errors
+rules:
+  - antennas: C04,C07,C12
+    time: "30m~45m"  # Only corrupt 30-45 min after scan start
+    phase_error_deg: 10
+    amp_error_pct: 10
 ```
 
 ## License

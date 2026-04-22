@@ -3,24 +3,19 @@
 # Example configuration showing the rule-based API
 
 # Required: Path to input Measurement Set
-input_ms: /path/to/your/data.ms
+input_ms: /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms
 
 # Required: Corruption rules
 # Each rule combines a selection with the exact phase/amplitude errors.
 rules:
   # Apply a +10 degree phase offset to the C04-C05 baseline
-  - antennas: C04&C05
-    phase_error_deg: 10
+  - antennas: W01&W02
+    phase_error_deg: 20
 
   # Increase amplitude by 5% on all baselines involving C06
-  - antennas: C06
-    amp_error_pct: 5
+  - antennas: W01&E08
+    amp_error_pct: 20
 
-  # Apply both errors on one baseline and a limited channel range
-  - antennas: C07&C08
-    spw: "0:120~150"
-    phase_error_deg: 3
-    amp_error_pct: 2
 
 # ─────────────────────────────────────────────────────────────
 # COLUMN PARAMETERS
@@ -32,3 +27,4 @@ output_column: CORRECTED_DATA
 # PROCESSING OPTIONS
 # ─────────────────────────────────────────────────────────────
 chunk_size_mb: 512
+

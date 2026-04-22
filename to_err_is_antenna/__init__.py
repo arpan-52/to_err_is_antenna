@@ -9,7 +9,7 @@ __version__ = "0.1.0"
 __author__ = "to_err_is_antenna contributors"
 
 from .corrupt import VisibilityCorruptor
-from .config import CorruptionConfig
+from .config import CorruptionConfig, CorruptionRule
 from .selectors import SelectionParser
 
-__all__ = ["VisibilityCorruptor", "CorruptionConfig", "SelectionParser"]
+__all__ = ["VisibilityCorruptor", "CorruptionConfig", "CorruptionRule", "SelectionParser"]

@@ -10,7 +10,8 @@ import tempfile
 from pathlib import Path
 import yaml
 
-from to_err_is_antenna.config import CorruptionConfig, generate_example_config
+from to_err_is_antenna.config import CorruptionConfig, CorruptionRule, generate_example_config
+from to_err_is_antenna.corrupt import VisibilityCorruptor
 from to_err_is_antenna.selectors import SelectionParser, SPWSelection, TimeSelection
 
 
@@ -21,15 +22,20 @@ class TestCorruptionConfig:
         """Test creating config with minimal required fields."""
         config_dict = {
             'input_ms': '/path/to/data.ms',
-            'affect': 'phase_error',
-            'quantify_error': 10,
+            'rules': [
+                {
+                    'antennas': 'C04&C05',
+                    'phase_error_deg': 10,
+                }
+            ],
         }
         
         config = CorruptionConfig.from_dict(config_dict)
         
         assert config.input_ms == Path('/path/to/data.ms')
-        assert config.affect == 'phase_error'
-        assert config.quantify_error == 10
+        assert len(config.rules) == 1
+        assert config.rules[0].antennas == 'C04&C05'
+        assert config.rules[0].phase_error_deg == 10
         assert config.input_column == 'DATA'  # default
         assert config.output_column == 'CORRECTED_DATA'  # default
     
@@ -37,12 +43,16 @@ class TestCorruptionConfig:
         """Test creating config with all fields."""
         config_dict = {
             'input_ms': '/path/to/data.ms',
-            'affect': 'both_error',
-            'quantify_error': 15.5,
-            'antennas': 'C04,C06',
-            'spw': '0:120~150',
-            'scan': '1,2,3',
-            'time': '30m~40m',
+            'rules': [
+                {
+                    'antennas': 'C04,C06',
+                    'spw': '0:120~150',
+                    'scan': '1,2,3',
+                    'time': '30m~40m',
+                    'phase_error_deg': 12.5,
+                    'amp_error_pct': 15.5,
+                }
+            ],
             'input_column': 'DATA',
             'output_column': 'CORRECTED_DATA',
             'chunk_size_mb': 1024,
@@ -51,49 +61,67 @@ class TestCorruptionConfig:
         
         config = CorruptionConfig.from_dict(config_dict)
         
-        assert config.antennas == 'C04,C06'
-        assert config.spw == '0:120~150'
+        assert config.rules[0].antennas == 'C04,C06'
+        assert config.rules[0].spw == '0:120~150'
+        assert config.rules[0].phase_error_deg == 12.5
+        assert config.rules[0].amp_error_pct == 15.5
         assert config.seed == 42
     
     def test_from_dict_missing_required(self):
         """Test that missing required fields raise error."""
         config_dict = {
             'input_ms': '/path/to/data.ms',
-            # missing 'affect' and 'quantify_error'
+            # missing 'rules'
         }
         
-        with pytest.raises(ValueError, match="Missing required"):
+        with pytest.raises(ValueError, match="'rules'"):
             CorruptionConfig.from_dict(config_dict)
-    
-    def test_from_dict_invalid_affect(self):
-        """Test that invalid affect value raises error."""
-        config_dict = {
-            'input_ms': '/path/to/data.ms',
-            'affect': 'invalid_error',
-            'quantify_error': 10,
-        }
-        
-        with pytest.raises(ValueError, match="Invalid 'affect'"):
-            CorruptionConfig.from_dict(config_dict)
-    
-    def test_from_dict_invalid_quantify_error(self):
-        """Test that out-of-range quantify_error raises error."""
-        config_dict = {
-            'input_ms': '/path/to/data.ms',
-            'affect': 'phase_error',
-            'quantify_error': 150,  # > 100
-        }
-        
-        with pytest.raises(ValueError, match="quantify_error"):
-            CorruptionConfig.from_dict(config_dict)
+
+    def test_rule_requires_error_field(self):
+        """Test that each rule must define an error."""
+        with pytest.raises(ValueError, match="at least one"):
+            CorruptionConfig.from_dict({
+                'input_ms': '/path/to/data.ms',
+                'rules': [{'antennas': 'C04&C05'}],
+            })
+
+    def test_rule_rejects_unknown_field(self):
+        """Test that unknown rule fields are rejected instead of ignored."""
+        with pytest.raises(ValueError, match="Unknown rule field"):
+            CorruptionConfig.from_dict({
+                'input_ms': '/path/to/data.ms',
+                'rules': [{'antenas': 'C04&C05', 'phase_error_deg': 10}],
+            })
+
+    def test_rule_rejects_non_mapping(self):
+        """Test that each rule entry must be a mapping."""
+        with pytest.raises(ValueError, match="Each rule must be a mapping"):
+            CorruptionConfig.from_dict({
+                'input_ms': '/path/to/data.ms',
+                'rules': ['bad'],
+            })
+
+    def test_config_rejects_unknown_field(self):
+        """Test that unknown top-level config fields are rejected."""
+        with pytest.raises(ValueError, match="Unknown config field"):
+            CorruptionConfig.from_dict({
+                'input_ms': '/path/to/data.ms',
+                'rules': [{'phase_error_deg': 10}],
+                'input_colum': 'DATA',
+            })
+
+    def test_rule_rejects_large_negative_amp_error(self):
+        """Test that amplitude scaling cannot go past zero."""
+        with pytest.raises(ValueError, match="amp_error_pct"):
+            CorruptionRule.from_dict({'amp_error_pct': -100})
     
     def test_from_yaml(self):
         """Test loading config from YAML file."""
         config_content = """
 input_ms: /path/to/data.ms
-affect: amp_error
-quantify_error: 10
-antennas: C04&C05
+rules:
+  - antennas: C04&C05
+    amp_error_pct: 10
 """
         with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:
             f.write(config_content)
@@ -101,8 +129,8 @@ antennas: C04&C05
         
         try:
             config = CorruptionConfig.from_yaml(temp_path)
-            assert config.affect == 'amp_error'
-            assert config.antennas == 'C04&C05'
+            assert config.rules[0].amp_error_pct == 10
+            assert config.rules[0].antennas == 'C04&C05'
         finally:
             Path(temp_path).unlink()
     
@@ -118,8 +146,8 @@ antennas: C04&C05
                 content = f.read()
             
             assert 'input_ms' in content
-            assert 'affect' in content
-            assert 'quantify_error' in content
+            assert 'rules' in content
+            assert 'phase_error_deg' in content
 
 
 class TestSelectionParser:
@@ -256,6 +284,13 @@ class TestSelectionParser:
         """Test that None returns None."""
         selection = SelectionParser.parse_time(None)
         assert selection is None
+
+    def test_check_time_match_relative_seconds(self):
+        """Test relative time matching uses seconds, not days."""
+        selection = SelectionParser.parse_time('30s~40s')
+        assert selection is not None
+        assert VisibilityCorruptor._check_time_match(selection, 130.0, 100.0)
+        assert not VisibilityCorruptor._check_time_match(selection, 141.0, 100.0)
     
     def test_baseline_matches_no_selection(self):
         """Test baseline matching with no selection (match all)."""
@@ -324,12 +359,16 @@ class TestIntegration:
         """Test that config survives YAML serialization."""
         original = {
             'input_ms': '/path/to/data.ms',
-            'affect': 'both_error',
-            'quantify_error': 12.5,
-            'antennas': 'C04&C05,C06',
-            'spw': '0:100~200,1:50~100',
-            'scan': '1~3,5',
-            'time': '10m~20m',
+            'rules': [
+                {
+                    'antennas': 'C04&C05,C06',
+                    'spw': '0:100~200,1:50~100',
+                    'scan': '1~3,5',
+                    'time': '10m~20m',
+                    'phase_error_deg': 12.5,
+                    'amp_error_pct': 8,
+                }
+            ],
             'seed': 42,
         }
         
@@ -341,9 +380,9 @@ class TestIntegration:
             config = CorruptionConfig.from_yaml(temp_path)
             
             assert str(config.input_ms) == '/path/to/data.ms'
-            assert config.affect == 'both_error'
-            assert config.quantify_error == 12.5
-            assert config.antennas == 'C04&C05,C06'
+            assert config.rules[0].phase_error_deg == 12.5
+            assert config.rules[0].amp_error_pct == 8
+            assert config.rules[0].antennas == 'C04&C05,C06'
             assert config.seed == 42
         finally:
             Path(temp_path).unlink()

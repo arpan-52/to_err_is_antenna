@@ -1,0 +1,396 @@
+2026-04-22 01:26:25	INFO	::casa	
+2026-04-22 01:26:26	INFO	::casa	The latest version is already installed in /home/arpan/.casa/data
+2026-04-22 01:26:28	INFO	::casa	measures_update ... acquiring the lock ... 
+2026-04-22 01:26:28	INFO	::casa	  ... connecting to ftp.astron.nl ...
+2026-04-22 01:26:42	INFO	::casa	  ... downloading WSRT_Measures_20260421-160001.ztar from ASTRON server to /home/arpan/.casa/data ...
+2026-04-22 01:26:46	INFO	::casa	  ... measures data updated at /home/arpan/.casa/data
+2026-04-22 01:26:46	INFO	::casa	
+2026-04-22 01:26:46	INFO	::casa	
+2026-04-22 01:26:46	INFO	::casa	
+2026-04-22 01:26:46	INFO	::casa	
+2026-04-22 01:26:47	INFO	::casa	Python version 3.8.10
+2026-04-22 01:26:47	INFO	::casa	CASA Version CASALITH 6.6.4.34
+2026-04-22 01:26:47	INFO	::casa	
+2026-04-22 01:26:47	INFO	::casa	optional configuration file not found, continuing CASA startup without it
+2026-04-22 01:26:47	INFO	::casa	loaded config file : /home/arpan/casa-6.6.4-34-py3.8.el7/lib/py/lib/python3.8/site-packages/casaconfig/config.py
+2026-04-22 01:26:47	INFO	::casa	
+2026-04-22 01:26:47	INFO	::casa	config values
+2026-04-22 01:26:47	INFO	::casa	    agg = False
+2026-04-22 01:26:47	INFO	::casa	    cachedir = '/home/arpan/.casa'
+2026-04-22 01:26:47	INFO	::casa	    casaconfig_verbose = 1
+2026-04-22 01:26:47	INFO	::casa	    colors = 'Neutral'
+2026-04-22 01:26:47	INFO	::casa	    data_auto_update = True
+2026-04-22 01:26:47	INFO	::casa	    datapath = ['/home/arpan/.casa/data']
+2026-04-22 01:26:47	INFO	::casa	    iplog = False
+2026-04-22 01:26:47	INFO	::casa	    iplogfile = '/home/arpan/to_err_is_antenna/ipython-20260422-012623.log'
+2026-04-22 01:26:47	INFO	::casa	    log2term = False
+2026-04-22 01:26:47	INFO	::casa	    logfile = '/home/arpan/to_err_is_antenna/casa-20260422-012623.log'
+2026-04-22 01:26:47	INFO	::casa	    measures_auto_update = True
+2026-04-22 01:26:47	INFO	::casa	    measurespath = '/home/arpan/.casa/data'
+2026-04-22 01:26:47	INFO	::casa	    nogui = False
+2026-04-22 01:26:47	INFO	::casa	    nologfile = False
+2026-04-22 01:26:47	INFO	::casa	    nologger = False
+2026-04-22 01:26:47	INFO	::casa	    pipeline = False
+2026-04-22 01:26:47	INFO	::casa	    startupfile = '/home/arpan/.casa/startup.py'
+2026-04-22 01:26:47	INFO	::casa	    user_site = False
+2026-04-22 01:26:47	INFO	::casa	
+2026-04-22 01:26:47	INFO	::casa	casarundata version : casarundata-2026.02.19-1.tar.gz
+2026-04-22 01:26:47	INFO	::casa	measures version : WSRT_Measures_20260421-160001.ztar
+2026-04-22 01:26:47	INFO	::casa	
+2026-04-22 01:26:47	INFO	::casa	Checking Measures tables in data repository sub-directory /home/arpan/.casa/data/geodetic
+2026-04-22 01:26:47	INFO	::casa	  IERSeop2000 (version date, last date in table (UTC)): 2026/02/23/15:15, 2025/12/31/00:00:00
+2026-04-22 01:26:47	INFO	::casa	  IERSeop97 (version date, last date in table (UTC)): 2026/02/23/15:15, 2025/12/31/00:00:00
+2026-04-22 01:26:47	INFO	::casa	  IERSpredict (version date, last date in table (UTC)): 2026/04/21/15:15, 2026/07/20/00:00:00
+2026-04-22 01:26:47	INFO	::casa	  TAI_UTC (version date, last date in table (UTC)): 2026/03/27/15:15, 2017/01/01/00:00:00
+2026-04-22 01:27:22	INFO	simobserve::::casa	##########################################
+2026-04-22 01:27:22	INFO	simobserve::::casa	##### Begin Task: simobserve         #####
+2026-04-22 01:27:22	INFO	simobserve::::casa	simobserve( project='vla_3c286', skymodel='', inbright='', indirection='', incell='', incenter='', inwidth='', complist='', compwidth='"8GHz"', comp_nchan=1, setpointings=True, ptgfile='$project.ptg.txt', integration='10s', direction=['J2000 13h31m08.288 +30d30m32.96'], mapsize=['1arcmin', '1arcmin'], maptype='ALMA', pointingspacing='', caldirection='', calflux='1Jy', obsmode='int', refdate='2024/01/01', hourangle='transit', totaltime='300s', antennalist='vla.d.cfg', sdantlist='aca.tp.cfg', sdant=0, outframe='LSRK', thermalnoise='', user_pwv=0.5, t_ground=270.0, t_sky=260.0, tau0=0.1, seed=11111, leakage=0.0, graphics='both', verbose=False, overwrite=True )
+2026-04-22 01:27:22	SEVERE	simobserve::::casa	Exception Reported: Error in simobserve: At least one of skymodel or complist must be set.
+2026-04-22 01:27:22	INFO	simobserve::::casa	Traceback (most recent call last):
+2026-04-22 01:27:22	INFO	simobserve::::casa+	  File "/home/arpan/casa-6.6.4-34-py3.8.el7/lib/py/lib/python3.8/site-packages/casashell/private/simobserve.py", line 1404, in __call__
+2026-04-22 01:27:22	INFO	simobserve::::casa+	    task_result = _simobserve_t( _pc.document['project'],_pc.document['skymodel'],_pc.document['inbright'],_pc.document['indirection'],_pc.document['incell'],_pc.document['incenter'],_pc.document['inwidth'],_pc.document['complist'],_pc.document['compwidth'],_pc.document['comp_nchan'],_pc.document['setpointings'],_pc.document['ptgfile'],_pc.document['integration'],_pc.document['direction'],_pc.document['mapsize'],_pc.document['maptype'],_pc.document['pointingspacing'],_pc.document['caldirection'],_pc.document['calflux'],_pc.document['obsmode'],_pc.document['refdate'],_pc.document['hourangle'],_pc.document['totaltime'],_pc.document['antennalist'],_pc.document['sdantlist'],_pc.document['sdant'],_pc.document['outframe'],_pc.document['thermalnoise'],_pc.document['user_pwv'],_pc.document['t_ground'],_pc.document['t_sky'],_pc.document['tau0'],_pc.document['seed'],_pc.document['leakage'],_pc.document['graphics'],_pc.document['verbose'],_pc.document['overwrite'] )
+2026-04-22 01:27:22	INFO	simobserve::::casa+	  File "/home/arpan/casa-6.6.4-34-py3.8.el7/lib/py/lib/python3.8/site-packages/casatasks/private/task_simobserve.py", line 162, in simobserve
+2026-04-22 01:27:22	INFO	simobserve::::casa+	    msg("At least one of skymodel or complist must be set.",
+2026-04-22 01:27:22	INFO	simobserve::::casa+	  File "/home/arpan/casa-6.6.4-34-py3.8.el7/lib/py/lib/python3.8/site-packages/casatasks/private/simutil.py", line 254, in msg
+2026-04-22 01:27:22	INFO	simobserve::::casa+	    raise Exception(s)
+2026-04-22 01:27:22	INFO	simobserve::::casa+	Exception: At least one of skymodel or complist must be set.
+2026-04-22 01:27:22	INFO	simobserve::::casa	Task simobserve complete. Start time: 2026-04-21 19:27:21.795350 End time: 2026-04-21 19:27:21.799582
+2026-04-22 01:27:22	INFO	simobserve::::casa	##### End Task: simobserve           #####
+2026-04-22 01:27:22	INFO	simobserve::::casa	##########################################
+2026-04-22 01:28:43	INFO	simobserve::::casa	##########################################
+2026-04-22 01:28:43	INFO	simobserve::::casa	##### Begin Task: simobserve         #####
+2026-04-22 01:28:43	INFO	simobserve::::casa	simobserve( project='vla_3C286_Lband', skymodel='', inbright='', indirection='', incell='', incenter='1.5GHz', inwidth='128MHz', complist='3C286.cl', compwidth='8GHz', comp_nchan=1, setpointings=True, ptgfile='$project.ptg.txt', integration='10s', direction=['J2000 13h31m08.288 +30d30m32.96'], mapsize=['2arcmin', '2arcmin'], maptype='ALMA', pointingspacing='', caldirection='', calflux='1Jy', obsmode='int', refdate='2024/01/01', hourangle='transit', totaltime='300s', antennalist='vla.d.cfg', sdantlist='aca.tp.cfg', sdant=0, outframe='LSRK', thermalnoise='', user_pwv=0.5, t_ground=270.0, t_sky=260.0, tau0=0.1, seed=11111, leakage=0.0, graphics='both', verbose=False, overwrite=True )
+2026-04-22 01:28:43	INFO	simobserve::simutil::casa	component-only simulation
+2026-04-22 01:28:43	INFO	simobserve::simutil::casa	compwidth set: setting model bandwidth to input
+2026-04-22 01:28:43	INFO	simobserve::simutil::casa	scaling model bandwidth by model_nchan
+2026-04-22 01:28:43	INFO	simobserve::readantenna::casa	Reading antenna positions from '/home/arpan/.casa/data/alma/simmos/vla.d.cfg'
+2026-04-22 01:28:43	INFO	simobserve::readantenna::casa	Reading antenna positions from '/home/arpan/.casa/data/alma/simmos/vla.d.cfg'
+2026-04-22 01:28:43	INFO	readantenna::ImageFactory::createImage	Created Paged image 'vla_3C286_Lband/vla_3C286_Lband.vla.d.compskymodel' of shape [39, 39, 1, 1] with float valued pixels.
+2026-04-22 01:28:43	INFO	readantenna::ComponentListImage::_computePointSourcePixelValues	Found 1 of 1 point sources located within the image and cached their pixel coordinates.
+2026-04-22 01:28:43	INFO	readantenna::ImageFactory::fromImage	Created Paged image 'vla_3C286_Lband/vla_3C286_Lband.vla.d.compskymodel.flat' of shape [39, 39] with float valued pixels.
+2026-04-22 01:28:43	INFO	readantenna::image::_adddegaxes 	Creating image 'vla_3C286_Lband/vla_3C286_Lband.vla.d.compskymodel.flat' of shape [39, 39, 1]
+2026-04-22 01:28:43	INFO	simobserve::simobserve::casa	calculating map pointings centered at J2000 13h31m08.288 +30d30m32.96
+2026-04-22 01:28:43	INFO	simobserve::calc_pointings::casa	using 1 generated pointing(s)
+2026-04-22 01:28:43	INFO	simobserve::simobserve::casa	center = J2000 13:31:08.28800 +030.30.32.960000
+2026-04-22 01:28:44	INFO	simobserve::simobserve::casa	preparing empty measurement set
+2026-04-22 01:28:44	INFO	simobserve::simobserve::casa	You desire an hour angle of 0.0 hours
+2026-04-22 01:28:44	INFO	simobserve::NewMSSimulator::initAnt() 	Using global coordinates for the antennas
+2026-04-22 01:28:44	INFO	simobserve::NewMSSimulator::initAnt() 	Added rows to ANTENNA table
+2026-04-22 01:28:44	INFO	simobserve::MSsimulator::initSpWindows() 	Creating new spectral window L, ID 1
+2026-04-22 01:28:44	INFO	simobserve::MSsimulator::initFeeds() 	Added rows to FEED table
+2026-04-22 01:28:44	INFO	simobserve::simulator::settimes()	Times 
+2026-04-22 01:28:44	INFO	simobserve::simulator::settimes()+	     Integration time 10s
+2026-04-22 01:28:44	INFO	simobserve::simulator::settimes()	     Times will be interpreted as hour angles for first source
+2026-04-22 01:28:44	INFO	simobserve::NewMSSimulator::observe()	First source: vla_3C286_Lband.vla.d_0 @ 13:31:08.29   +30.30.32.96       J2000
+2026-04-22 01:28:44	INFO	simobserve::NewMSSimulator::observe()+	Full time range: 31-Dec-2023/14:00:13.5 -- 31-Dec-2023/14:05:13.5 TAI with int = 10
+2026-04-22 01:28:44	INFO	simobserve::NewMSSimulator::observe()	Calculating a total of 30 integrations
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setdata() 	Selecting data
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setdata() 	Performing selection on MeasurementSet
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setdata() 	Selecting on field and spectral window ids
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setdata() 	No selection string given
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setdata() 	Selection did not drop any rows
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setvp()	Setting voltage pattern parameters
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setvp()	Beam Squint will be included in the VP model
+2026-04-22 01:28:44	INFO	simobserve::Simulator::setvp()	and the parallactic angle increment is 360 degrees
+2026-04-22 01:28:44	INFO	simobserve::simutil::casa	Note: diameters in configuration file will not be used - PB for VLA will be used
+2026-04-22 01:28:44	INFO	simobserve::simobserve::casa	done setting up observations (blank visibilities)
+2026-04-22 01:28:44	INFO	simobserve::simobserve::casa	predicting from 3C286.cl
+2026-04-22 01:28:44	INFO	simobserve::Simulator::predict() 	Predicting visibilities using model: [] and componentList: 3C286.cl
+2026-04-22 01:28:44	INFO	simobserve::Simulator::predict() 	The data column will be replaced
+2026-04-22 01:28:44	INFO	simobserve::Simulator::getVPRecord 	Using Voltage Patterns from the VPManager
+2026-04-22 01:28:44	INFO	simobserve::Simulator::createSkyEquation() 	Synthesis gridding 
+2026-04-22 01:28:44	INFO	simobserve::Simulator::createSkyEquation() 	Fourier transforms will use image centers as tangent points
+2026-04-22 01:28:44	INFO	simobserve::VPSkyJones::VPSkyJones	PB used VLA_L
+2026-04-22 01:28:44	INFO	simobserve::BeamSkyJones::summary	Beam Summary: 
+2026-04-22 01:28:44	INFO	simobserve::BeamSkyJones::summary	Model 1 for VLA ant=-1 feed=-1 uses PB: AIRY
+2026-04-22 01:28:44	INFO	simobserve::PBMath1D::summary	Using AIRY PB Class 
+2026-04-22 01:28:44	INFO	simobserve::PBMathInterface::summary	These parameters are for Voltage Pattern
+2026-04-22 01:28:44	INFO	simobserve::BeamSquint::show	Beam Squint in arcmin (AZ-EL): [-0.855599, -0.855599]
+2026-04-22 01:28:44	INFO	simobserve::BeamSquint::show	Beam Squint ref freq, GHz    : 1
+2026-04-22 01:28:44	INFO	simobserve::PBMath1D::summary	Max Radius at 1 GHz: 51.384 arcmin 
+2026-04-22 01:28:44	INFO	simobserve::PBMath1DAiry::summary	   Dish Diameter: 25 m 
+2026-04-22 01:28:44	INFO	simobserve::PBMath1DAiry::summary	Blocked Diameter: 2.36 m 
+2026-04-22 01:28:44	INFO	simobserve::Simulator::reset() 	Resetting all visibility corruption components
+2026-04-22 01:28:44	INFO	simobserve::Simulator::reset() 	Reset all image-plane corruption components
+2026-04-22 01:28:44	INFO	simobserve::simobserve::casa	generation of measurement set vla_3C286_Lband/vla_3C286_Lband.vla.d.ms complete
+2026-04-22 01:28:45	INFO	simobserve::::	LAST of rise= 05:59:25.82
+2026-04-22 01:28:45	INFO	simobserve::::	LAST of  set= 21:05:02.87
+2026-04-22 01:28:45	INFO	simobserve::::	UTC of rise= 2023/12/31/06:32:10
+2026-04-22 01:28:45	INFO	simobserve::::+	UTC of  set= 2023/12/31/21:35:19
+2026-04-22 01:28:45	INFO	simobserve::ephemeris::casa	peak=31-Dec-2023/14:02:44
+2026-04-22 01:28:45	INFO	simobserve::Imager::open() 	Opening MeasurementSet /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms
+2026-04-22 01:28:45	INFO	simobserve::simobserve::casa	using default model cell {'unit': 'arcsec', 'value': 3.010146825211746} for PSF calculation
+2026-04-22 01:28:45	INFO	simobserve::imager::defineimage()	Defining image properties:nx=184 ny=184 cellx='3.01015arcsec' celly='3.01015arcsec' stokes=I' mode=MFS nchan=-1 start=0 step=0 spwids=[0] fieldid=0 facets=1 frame=1 distance='0'
+2026-04-22 01:28:45	INFO	simobserve::imager::defineimage()	 phaseCenter='field-0 ' mStart='Radialvelocity: 0' qStep='0 '' mFreqStart='Frequency: 0
+2026-04-22 01:28:45	INFO	simobserve::imager::approximatepsfs() 	Calculating approximate PSFs using full sky equation
+2026-04-22 01:28:45	INFO	simobserve::imager::createFTMachine() 	Performing interferometric gridding...
+2026-04-22 01:28:45	INFO	simobserve::ImageSkyModel::makeApproxPSFs	bmaj: 52.1364", bmin: 48.6483", bpa: -1.74535 deg
+2026-04-22 01:28:45	INFO	simobserve::imager::approximatepsfs() 	Approximate PSF  : size 52.1364 by 48.6483 (arcsec) at pa -1.74535 (deg)
+2026-04-22 01:28:45	INFO	simobserve::imager::approximatepsfs() +	and volume = 472.222 pixels 
+2026-04-22 01:28:45	INFO	simobserve::imager::fitpsf() 	Fitting to psf
+2026-04-22 01:28:45	INFO	simobserve::imager::fitpsf() 	  Beam fit: 52.1364 by 48.6483 (arcsec) at pa -1.74535 (deg) 
+2026-04-22 01:28:45	INFO	simobserve::CasacRegionManager::fromBCS	No directional region specified. Using full positional plane.
+2026-04-22 01:28:45	INFO	simobserve::CasacRegionManager::fromBCS	Using all spectral channels.
+2026-04-22 01:28:45	INFO	simobserve::CasacRegionManager::fromBCS	Using polarizations ALL
+2026-04-22 01:28:45	INFO	simobserve::ImageRegion::fromRecord	Selected bounding box : 
+2026-04-22 01:28:45	INFO	simobserve::ImageRegion::fromRecord+	    [0, 0, 0, 0] to [183, 183, 0, 0]  (13:31:29.700, +30.25.55.917, I, 1500000000Hz to 13:30:47.075, +30.35.06.776, I, 1500000000Hz)
+2026-04-22 01:28:45	INFO	simobserve::ImageCollapser::_doDegenerateAxesCase	All subimage axes to be collapsed are degenerate, using algorithm optimized for that case.
+2026-04-22 01:28:45	INFO	simobserve::::casa	Task simobserve complete. Start time: 2026-04-21 19:28:43.395921 End time: 2026-04-21 19:28:44.764162
+2026-04-22 01:28:45	INFO	simobserve::::casa	##### End Task: simobserve           #####
+2026-04-22 01:28:45	INFO	simobserve::::casa	##########################################
+2026-04-22 01:29:18	INFO	listobs::::casa	##########################################
+2026-04-22 01:29:18	INFO	listobs::::casa	##### Begin Task: listobs            #####
+2026-04-22 01:29:18	INFO	listobs::::casa	listobs( vis='vla_3C286_Lband.vla.d.ms', selectdata=True, spw='', field='', antenna='', uvrange='', timerange='', correlation='', scan='', intent='', feed='', array='', observation='', verbose=True, listfile='', listunfl=False, cachesize=50.0, overwrite=False )
+2026-04-22 01:29:18	INFO	listobs::ms::summary	================================================================================
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	           MeasurementSet Name:  /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms      MS Version 2
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	================================================================================
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	   Observer: CASA simulator     Project: vla_3C286_Lband.vla.d  
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	Observation: VLA
+2026-04-22 01:29:18	INFO	listobs::MSMetaData::_computeScanAndSubScanProperties 	Computing scan and subscan properties...
+2026-04-22 01:29:18	INFO	listobs::ms::summary	Data records: 10530       Total elapsed time = 300 seconds
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	   Observed from   31-Dec-2023/14:00:13.5   to   31-Dec-2023/14:05:13.5 (UTC)
+2026-04-22 01:29:18	INFO	listobs::ms::summary	
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	   ObservationID = 0         ArrayID = 0
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  Date        Timerange (UTC)          Scan  FldId FieldName             nRows     SpwIds   Average Interval(s)    ScanIntent
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  31-Dec-2023/14:00:13.5 - 14:05:13.5     1      0 vla_3C286_Lband.vla*     10530  [0]  [10] [OBSERVE_TARGET#ON_SOURCE]
+2026-04-22 01:29:18	INFO	listobs::ms::summary	           (nRows = Total number of rows per scan) 
+2026-04-22 01:29:18	INFO	listobs::ms::summary	Fields: 1
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  ID   Code Name                RA               Decl           Epoch   SrcId      nRows
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  0    OBJ  vla_3C286_Lband.vla*13:31:08.288000 +30.30.32.96000 J2000   0          10530
+2026-04-22 01:29:18	INFO	listobs::ms::summary	Spectral Windows:  (1 unique spectral windows and 1 unique polarization setups)
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  SpwID  Name   #Chans   Frame   Ch0(MHz)  ChanWid(kHz)  TotBW(kHz) CtrFreq(MHz)  Corrs  
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  0      L          1   LSRK    1500.000   8000000.000   8000000.0   1500.0000   RR  LL
+2026-04-22 01:29:18	INFO	listobs::ms::summary	Sources: 1
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  ID   Name                SpwId RestFreq(MHz)  SysVel(km/s) 
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  0    vla_3C286_Lband.vla*0     1500           0            
+2026-04-22 01:29:18	INFO	listobs::ms::summary	Antennas: 27:
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  ID   Name  Station   Diam.    Long.         Lat.                Offset from array center (m)                ITRF Geocentric coordinates (m)        
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	                                                                     East         North     Elevation               x               y               z
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  0    W01   W01       25.0 m   -107.37.05.9  +33.54.00.5          3.4986      -39.7866        0.9640 -1601188.989351 -5042000.518599  3554843.384480
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  1    W02   W02       25.0 m   -107.37.07.4  +33.54.00.9        -37.1352      -25.0180        0.9917 -1601225.230987 -5041980.390730  3554855.657987
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  2    W03   W03       25.0 m   -107.37.08.9  +33.54.00.1        -74.4860      -50.2041        1.1051 -1601265.110332 -5041982.563379  3554834.816409
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  3    W04   W04       25.0 m   -107.37.10.8  +33.53.59.1       -122.0325      -82.2811        1.2336 -1601315.874282 -5041985.324465  3554808.263784
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  4    W05   W05       25.0 m   -107.37.13.0  +33.53.57.8       -179.2256     -120.8709        1.4331 -1601376.950042 -5041988.682890  3554776.344871
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  5    W06   W06       25.0 m   -107.37.15.6  +33.53.56.4       -244.9921     -165.2318        1.6534 -1601447.176774 -5041992.529191  3554739.647266
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  6    W07   W07       25.0 m   -107.37.18.4  +33.53.54.8       -319.1188     -215.2394        1.9135 -1601526.335275 -5041996.876364  3554698.284889
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  7    W08   W08       25.0 m   -107.37.21.6  +33.53.53.0       -401.2727     -270.6425        2.1949 -1601614.061201 -5042001.676547  3554652.455603
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  8    W09   W09       25.0 m   -107.37.25.1  +33.53.51.0       -491.0998     -331.2644        2.4978 -1601709.987416 -5042006.942534  3554602.306306
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  9    E01   E01       25.0 m   -107.37.05.7  +33.53.59.2          6.9941      -79.6466        1.1132 -1601192.424192 -5042022.883542  3554810.383317
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  10   E02   E02       25.0 m   -107.37.04.4  +33.54.01.1         40.6668      -18.8939        0.9244 -1601150.027460 -5042000.630731  3554860.703495
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  11   E03   E03       25.0 m   -107.37.02.8  +33.54.00.5         81.5282      -37.9553        0.9962 -1601114.318178 -5042023.187696  3554844.922416
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  12   E04   E04       25.0 m   -107.37.00.8  +33.53.59.7        133.6376      -62.2744        1.0502 -1601068.771188 -5042051.929370  3554824.767363
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  13   E05   E05       25.0 m   -107.36.58.4  +33.53.58.8        195.8436      -91.2671        1.1685 -1601014.405657 -5042086.261585  3554800.768970
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  14   E06   E06       25.0 m   -107.36.55.6  +33.53.57.7        267.7591     -124.8020        1.2630 -1600951.545716 -5042125.927280  3554772.987195
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  15   E07   E07       25.0 m   -107.36.52.4  +33.53.56.5        348.8805     -162.6442        0.9900 -1600880.545264 -5042170.376845  3554741.425036
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  16   E08   E08       25.0 m   -107.36.48.9  +33.53.55.1        438.6859     -204.5069        0.4597 -1600801.880602 -5042219.386677  3554706.382285
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  17   E09   E09       25.0 m   -107.36.45.1  +33.53.53.6        536.8813     -250.3267        0.0620 -1600715.918854 -5042273.142150  3554668.128757
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  18   N01   N01       25.0 m   -107.37.06.0  +33.54.01.8          0.0150        0.0509        0.8433 -1601185.553970 -5041978.191573  3554876.382645
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  19   N02   N02       25.0 m   -107.37.06.2  +33.54.03.5         -4.7757       54.6953        0.5487 -1601180.820941 -5041947.459898  3554921.573373
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  20   N03   N03       25.0 m   -107.37.06.3  +33.54.04.8         -8.2624       94.5372        0.3521 -1601177.368455 -5041925.069104  3554954.532566
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  21   N04   N04       25.0 m   -107.37.06.5  +33.54.06.1        -11.7370      134.3758        0.1499 -1601173.903632 -5041902.679083  3554987.485762
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  22   N05   N05       25.0 m   -107.37.06.7  +33.54.08.0        -16.9866      194.1206       -0.1871 -1601168.735762 -5041869.062707  3555036.885577
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  23   N06   N06       25.0 m   -107.37.06.9  +33.54.10.3        -23.2136      265.3947       -0.5231 -1601162.553007 -5041829.021602  3555095.854771
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  24   N07   N07       25.0 m   -107.37.07.2  +33.54.12.9        -30.2502      345.7496       -0.9176 -1601155.593706 -5041783.860938  3555162.327771
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  25   N08   N08       25.0 m   -107.37.07.5  +33.54.15.8        -38.0394      434.7114       -1.3636 -1601147.885235 -5041733.855114  3555235.914849
+2026-04-22 01:29:18	INFO	listobs::ms::summary+	  26   N09   N09       25.0 m   -107.37.07.8  +33.54.19.0        -46.6294      532.1472       -1.9105 -1601139.483292 -5041679.021042  3555316.478099
+2026-04-22 01:29:18	INFO	listobs::::casa	Task listobs complete. Start time: 2026-04-21 19:29:18.193297 End time: 2026-04-21 19:29:18.213109
+2026-04-22 01:29:18	INFO	listobs::::casa	##### End Task: listobs              #####
+2026-04-22 01:29:18	INFO	listobs::::casa	##########################################
+2026-04-22 01:29:44	INFO	listobs::::casa	##########################################
+2026-04-22 01:29:44	INFO	listobs::::casa	##### Begin Task: listobs            #####
+2026-04-22 01:29:44	INFO	listobs::::casa	listobs( vis='vla_3C286_Lband.vla.d.ms', selectdata=True, spw='', field='', antenna='', uvrange='', timerange='', correlation='', scan='', intent='', feed='', array='', observation='', verbose=True, listfile='a', listunfl=False, cachesize=50.0, overwrite=False )
+2026-04-22 01:29:44	INFO	listobs::ms::summary	Writing output to file: a
+2026-04-22 01:29:44	INFO	listobs::MSMetaData::_computeScanAndSubScanProperties 	Computing scan and subscan properties...
+2026-04-22 01:29:44	INFO	listobs::::casa	Task listobs complete. Start time: 2026-04-21 19:29:43.963894 End time: 2026-04-21 19:29:43.979054
+2026-04-22 01:29:44	INFO	listobs::::casa	##### End Task: listobs              #####
+2026-04-22 01:29:44	INFO	listobs::::casa	##########################################
+2026-04-22 01:33:18	INFO	plotms::::casa	##########################################
+2026-04-22 01:33:18	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2026-04-22 01:33:18	INFO	plotms::::casa	plotms( vis='', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=True, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2026-04-22 01:33:19	INFO	plotms::::casa	casaplotms started: 0.0.0.0:44289
+2026-04-22 01:33:19	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2026-04-22 01:33:19	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2026-04-22 01:33:19	INFO	plotms::::casa	Task plotms complete. Start time: 2026-04-21 19:33:18.183515 End time: 2026-04-21 19:33:18.720805
+2026-04-22 01:33:19	INFO	plotms::::casa	##### End Task: plotms               #####
+2026-04-22 01:33:19	INFO	plotms::::casa	##########################################
+2026-04-22 01:33:34	INFO	plotms::::casa	##########################################
+2026-04-22 01:33:34	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2026-04-22 01:33:34	INFO	plotms::::casa	plotms( vis='', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=True, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2026-04-22 01:33:34	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2026-04-22 01:33:34	INFO	plotms::::casa	Task plotms complete. Start time: 2026-04-21 19:33:34.071220 End time: 2026-04-21 19:33:34.102550
+2026-04-22 01:33:34	INFO	plotms::::casa	##### End Task: plotms               #####
+2026-04-22 01:33:34	INFO	plotms::::casa	##########################################
+2026-04-22 01:33:47	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	START     Current memory usage: 19953.4 kilobytes.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Plotting table vla_3C286_Lband.vla.d.ms
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):data vs. Uwave(33)...
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Loading page header cache
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Data selection will yield a total of 21060 points (flagged and unflagged).
+2026-04-22 01:33:47	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.0003384 GB of memory (16.0684 bytes/point).
+2026-04-22 01:33:47	INFO	PlotMS::load_cache+	This is 0.00104792% of the memory avail. to CASA (32.2926 GB).
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Loading chunks......
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Generating the plot mask.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	refTime = 2023/12/31/00:00:00.0
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Finished loading.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Axes ranges:
+2026-04-22 01:33:47	INFO	PlotMS::load_cache+	Uwave: -5146.95 to 2929.03 (unflagged); (no flagged data)
+2026-04-22 01:33:47	INFO	PlotMS::load_cache+	Amp:data: 14.7988 to 14.7988 (unflagged); (no flagged data)
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	Finished indexing.
+2026-04-22 01:33:47	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +1897.36 kilobytes.
+2026-04-22 01:33:47	INFO	PlotMS::plot	Plotting 21060 unflagged points.
+2026-04-22 01:33:58	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	START     Current memory usage: 21489.2 kilobytes.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Plotting table vla_3C286_Lband.vla.d.ms
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Caching for the new plot: Amp(17):corrected vs. Uwave(33)...
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Loading page header cache
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Data selection will yield a total of 21060 points (flagged and unflagged).
+2026-04-22 01:33:58	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.0003384 GB of memory (16.0684 bytes/point).
+2026-04-22 01:33:58	INFO	PlotMS::load_cache+	This is 0.00104792% of the memory avail. to CASA (32.2926 GB).
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Loading chunks......
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Generating the plot mask.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	refTime = 2023/12/31/00:00:00.0
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Finished loading.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Axes ranges:
+2026-04-22 01:33:58	INFO	PlotMS::load_cache+	Uwave: -5146.95 to 2929.03 (unflagged); (no flagged data)
+2026-04-22 01:33:58	INFO	PlotMS::load_cache+	Amp:corrected: 14.7988 to 17.7585 (unflagged); (no flagged data)
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	Finished indexing.
+2026-04-22 01:33:58	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +108.359 kilobytes.
+2026-04-22 01:33:58	INFO	PlotMS::plot	Plotting 21060 unflagged points.
+2026-04-22 01:34:59	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2026-04-22 01:34:59	INFO	PlotMS::plot	Plotting 21060 unflagged points.
+2026-04-22 01:35:19	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	START     Current memory usage: 23880.9 kilobytes.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Plotting table vla_3C286_Lband.vla.d.ms
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Caching for the new plot: Phase(18):corrected vs. Uwave(33)...
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Loading page header cache
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Data selection will yield a total of 21060 points (flagged and unflagged).
+2026-04-22 01:35:19	INFO	PlotMS::load_cache+	The plotms cache will require an estimated 0.00042264 GB of memory (20.0684 bytes/point).
+2026-04-22 01:35:19	INFO	PlotMS::load_cache+	This is 0.00130878% of the memory avail. to CASA (32.2926 GB).
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Loading chunks......
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Generating the plot mask.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	refTime = 2023/12/31/00:00:00.0
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Finished loading.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Setting up iteration indexing (if necessary), and calculating plot ranges.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Axes ranges:
+2026-04-22 01:35:19	INFO	PlotMS::load_cache+	Uwave: -5146.95 to 2929.03 (unflagged); (no flagged data)
+2026-04-22 01:35:19	INFO	PlotMS::load_cache+	Phase:corrected: 0 to 20 (unflagged); (no flagged data)
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	Finished indexing.
+2026-04-22 01:35:19	INFO	PlotMS::load_cache	END       Time: +0 seconds.  Memory: +106.859 kilobytes.
+2026-04-22 01:35:19	INFO	PlotMS::plot	Plotting 21060 unflagged points.
+2026-04-22 01:35:45	INFO	PlotMS::params_changed	Updating: REDRAW, DISPLAY.
+2026-04-22 01:35:45	INFO	PlotMS::plot	Plotting 21060 unflagged points.
+2026-04-22 01:37:50	SEVERE	visstat::::casa	Exception Reported: Error in visstat: the vis parameter must be a path that exists ('vla_3C286_Lband/vla_3C286_Lband.vla.d.ms' does not exist)
+2026-04-22 01:37:50	INFO	visstat::::casa	Traceback (most recent call last):
+2026-04-22 01:37:50	INFO	visstat::::casa+	  File "/home/arpan/casa-6.6.4-34-py3.8.el7/lib/py/lib/python3.8/site-packages/casashell/private/visstat.py", line 983, in __call__
+2026-04-22 01:37:50	INFO	visstat::::casa+	    assert _pc.validate(_invocation_parameters,self.__schema), create_error_string(_pc.errors)
+2026-04-22 01:37:50	INFO	visstat::::casa+	AssertionError: the vis parameter must be a path that exists ('vla_3C286_Lband/vla_3C286_Lband.vla.d.ms' does not exist)
+2026-04-22 01:38:17	INFO	visstat::::casa	##########################################
+2026-04-22 01:38:17	INFO	visstat::::casa	##### Begin Task: visstat            #####
+2026-04-22 01:38:17	INFO	visstat::::casa	visstat( vis='vla_3C286_Lband.vla.d.ms', axis='amp', datacolumn='corrected', useflags=True, spw='', field='', selectdata=True, antenna='W01&W02', uvrange='', timerange='', correlation='', scan='', array='', observation='', timeaverage=False, timebin='0s', timespan='', maxuvwdistance=0.0, disableparallel=False, ddistart=-1, taql='', monolithic_processing=False, intent='', reportingaxes='ddid', doquantiles=True )
+2026-04-22 01:38:17	INFO	visstat::ms::statistics	Use /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms, useflags = 1, useweights = 0
+2026-04-22 01:38:17	INFO	visstat::ms::statistics	Compute statistics on CORRECTED, use amp...
+2026-04-22 01:38:17	INFO	visstat::::casa	DATA_DESC_ID=0 values --- 
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- number of points [npts]:           60
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- minimum value [min]:               14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- maximum value [max]:               14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- Sum of values [sum]:               887.9270553588867
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- Sum of squared values [sumsq]:     13140.240927305058
+2026-04-22 01:38:17	INFO	visstat::::casa	DATA_DESC_ID=0 statistics --- 
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Mean of the values [mean]:                 14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Variance of the values [variance]:         0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Standard deviation of the values [stddev]: 0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Root mean square [rms]:                    14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Median of the pixel values [median]:       14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Median of the deviations [medabsdevmed]:   0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- First quartile [firstquartile]:            14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Third quartile [thirdquartile]:            14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	Task visstat complete. Start time: 2026-04-21 19:38:16.952385 End time: 2026-04-21 19:38:17.000532
+2026-04-22 01:38:17	INFO	visstat::::casa	##### End Task: visstat              #####
+2026-04-22 01:38:17	INFO	visstat::::casa	##########################################
+2026-04-22 01:38:17	INFO	visstat::::casa	##########################################
+2026-04-22 01:38:17	INFO	visstat::::casa	##### Begin Task: visstat            #####
+2026-04-22 01:38:17	INFO	visstat::::casa	visstat( vis='vla_3C286_Lband.vla.d.ms', axis='amp', datacolumn='data', useflags=True, spw='', field='', selectdata=True, antenna='W01&W02', uvrange='', timerange='', correlation='', scan='', array='', observation='', timeaverage=False, timebin='0s', timespan='', maxuvwdistance=0.0, disableparallel=False, ddistart=-1, taql='', monolithic_processing=False, intent='', reportingaxes='ddid', doquantiles=True )
+2026-04-22 01:38:17	INFO	visstat::ms::statistics	Use /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms, useflags = 1, useweights = 0
+2026-04-22 01:38:17	INFO	visstat::ms::statistics	Compute statistics on DATA, use amp...
+2026-04-22 01:38:17	INFO	visstat::::casa	DATA_DESC_ID=0 values --- 
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- number of points [npts]:           60
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- minimum value [min]:               14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- maximum value [max]:               14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- Sum of values [sum]:               887.9270553588867
+2026-04-22 01:38:17	INFO	visstat::::casa	         -- Sum of squared values [sumsq]:     13140.240927305058
+2026-04-22 01:38:17	INFO	visstat::::casa	DATA_DESC_ID=0 statistics --- 
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Mean of the values [mean]:                 14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Variance of the values [variance]:         0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Standard deviation of the values [stddev]: 0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Root mean square [rms]:                    14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Median of the pixel values [median]:       14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Median of the deviations [medabsdevmed]:   0.0
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- First quartile [firstquartile]:            14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	        -- Third quartile [thirdquartile]:            14.798784255981445
+2026-04-22 01:38:17	INFO	visstat::::casa	Task visstat complete. Start time: 2026-04-21 19:38:17.001777 End time: 2026-04-21 19:38:17.040273
+2026-04-22 01:38:17	INFO	visstat::::casa	##### End Task: visstat              #####
+2026-04-22 01:38:17	INFO	visstat::::casa	##########################################
+2026-04-22 01:39:12	INFO	visstat::::casa	##########################################
+2026-04-22 01:39:12	INFO	visstat::::casa	##### Begin Task: visstat            #####
+2026-04-22 01:39:12	INFO	visstat::::casa	visstat( vis='vla_3C286_Lband.vla.d.ms', axis='amp', datacolumn='corrected', useflags=True, spw='', field='', selectdata=True, antenna='W01&E08', uvrange='', timerange='', correlation='', scan='', array='', observation='', timeaverage=False, timebin='0s', timespan='', maxuvwdistance=0.0, disableparallel=False, ddistart=-1, taql='', monolithic_processing=False, intent='', reportingaxes='ddid', doquantiles=True )
+2026-04-22 01:39:12	INFO	visstat::ms::statistics	Use /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms, useflags = 1, useweights = 0
+2026-04-22 01:39:12	INFO	visstat::ms::statistics	Compute statistics on CORRECTED, use amp...
+2026-04-22 01:39:12	INFO	visstat::::casa	DATA_DESC_ID=0 values --- 
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- number of points [npts]:           60
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- minimum value [min]:               17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- maximum value [max]:               17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- Sum of values [sum]:               1065.512466430664
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- Sum of squared values [sumsq]:     18921.946935319284
+2026-04-22 01:39:12	INFO	visstat::::casa	DATA_DESC_ID=0 statistics --- 
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Mean of the values [mean]:                 17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Variance of the values [variance]:         0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Standard deviation of the values [stddev]: 0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Root mean square [rms]:                    17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Median of the pixel values [median]:       17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Median of the deviations [medabsdevmed]:   0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- First quartile [firstquartile]:            17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Third quartile [thirdquartile]:            17.758541107177734
+2026-04-22 01:39:12	INFO	visstat::::casa	Task visstat complete. Start time: 2026-04-21 19:39:11.618320 End time: 2026-04-21 19:39:11.653218
+2026-04-22 01:39:12	INFO	visstat::::casa	##### End Task: visstat              #####
+2026-04-22 01:39:12	INFO	visstat::::casa	##########################################
+2026-04-22 01:39:12	INFO	visstat::::casa	##########################################
+2026-04-22 01:39:12	INFO	visstat::::casa	##### Begin Task: visstat            #####
+2026-04-22 01:39:12	INFO	visstat::::casa	visstat( vis='vla_3C286_Lband.vla.d.ms', axis='amp', datacolumn='data', useflags=True, spw='', field='', selectdata=True, antenna='W01&E08', uvrange='', timerange='', correlation='', scan='', array='', observation='', timeaverage=False, timebin='0s', timespan='', maxuvwdistance=0.0, disableparallel=False, ddistart=-1, taql='', monolithic_processing=False, intent='', reportingaxes='ddid', doquantiles=True )
+2026-04-22 01:39:12	INFO	visstat::ms::statistics	Use /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms, useflags = 1, useweights = 0
+2026-04-22 01:39:12	INFO	visstat::ms::statistics	Compute statistics on DATA, use amp...
+2026-04-22 01:39:12	INFO	visstat::::casa	DATA_DESC_ID=0 values --- 
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- number of points [npts]:           60
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- minimum value [min]:               14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- maximum value [max]:               14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- Sum of values [sum]:               887.9270553588867
+2026-04-22 01:39:12	INFO	visstat::::casa	         -- Sum of squared values [sumsq]:     13140.240927305058
+2026-04-22 01:39:12	INFO	visstat::::casa	DATA_DESC_ID=0 statistics --- 
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Mean of the values [mean]:                 14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Variance of the values [variance]:         0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Standard deviation of the values [stddev]: 0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Root mean square [rms]:                    14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Median of the pixel values [median]:       14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Median of the deviations [medabsdevmed]:   0.0
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- First quartile [firstquartile]:            14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	        -- Third quartile [thirdquartile]:            14.798784255981445
+2026-04-22 01:39:12	INFO	visstat::::casa	Task visstat complete. Start time: 2026-04-21 19:39:11.657728 End time: 2026-04-21 19:39:11.697036
+2026-04-22 01:39:12	INFO	visstat::::casa	##### End Task: visstat              #####
+2026-04-22 01:39:12	INFO	visstat::::casa	##########################################
+2026-04-22 01:41:04	INFO	plotms::::casa	##########################################
+2026-04-22 01:41:04	INFO	plotms::::casa	##### Begin Task: plotms             #####
+2026-04-22 01:41:04	INFO	plotms::::casa	plotms( vis='', gridrows=1, gridcols=1, rowindex=0, colindex=0, plotindex=0, xaxis='', xdatacolumn='', xframe='', xinterp='', yaxis='', ydatacolumn='', yframe='', yinterp='', yaxislocation='', selectdata=True, field='', spw='', timerange='', uvrange='', antenna='', scan='', correlation='', array='', observation='', intent='', feed='', msselect='', averagedata=True, avgchannel='', avgtime='', avgscan=False, avgfield=False, avgbaseline=False, avgantenna=False, avgspw=False, scalar=False, transform=True, freqframe='', restfreq='', veldef='RADIO', phasecenter='', extendflag=False, extcorr=False, extchannel=False, iteraxis='', xselfscale=False, yselfscale=False, xsharedaxis=False, ysharedaxis=False, customsymbol=[], symbolshape='autoscaling', symbolsize=2, symbolcolor='0000ff', symbolfill='fill', symboloutline=False, coloraxis='', customflaggedsymbol=False, flaggedsymbolshape='circle', flaggedsymbolsize=2, flaggedsymbolcolor='ff0000', flaggedsymbolfill='fill', flaggedsymboloutline=False, xconnector='', timeconnector=False, plotrange=[], title='', titlefont=0, xlabel='', xaxisfont=0, ylabel='', yaxisfont=0, showmajorgrid=False, majorwidth=1, majorstyle='', majorcolor='B0B0B0', showminorgrid=False, minorwidth=1, minorstyle='', minorcolor='D0D0D0', showlegend=False, legendposition='', plotfile='', expformat='', verbose=True, exprange='', highres=False, dpi=-1, width=-1, height=-1, overwrite=True, showgui=True, clearplots=True, callib=[], headeritems='', showatm=False, showtsky=False, showimage=False, colorizeoverlay=False )
+2026-04-22 01:41:04	INFO	PlotMS::params_changed	Updating: REDRAW, MSDATA, CACHE, AXES, CANVAS, DISPLAY, PAGEHEADER, ITERATION, LOG, PLOTMS_OPTIONS.
+2026-04-22 01:41:04	INFO	plotms::::casa	Task plotms complete. Start time: 2026-04-21 19:41:03.874693 End time: 2026-04-21 19:41:03.912638
+2026-04-22 01:41:04	INFO	plotms::::casa	##### End Task: plotms               #####
+2026-04-22 01:41:04	INFO	plotms::::casa	##########################################
+2026-04-22 01:41:29	INFO	PlotMS::params_changed	Updating: REDRAW, CACHE.
+2026-04-22 01:41:29	INFO	PlotMS::load_cache	Clearing the existing plotms cache.
+2026-04-22 01:42:23	SEVERE	name::	Exception Reported: Error in TaQL command: 'select from "/home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms" where ANTENNA1_NAME=='W01' && ANTENNA2_NAME=='E08''
+2026-04-22 01:42:23	SEVERE	name::+	  Error in select expression: ANTENNA1_NAME is an unknown column (or keyword) in table /home/arpan/to_err_is_antenna/vla_3C286_Lband/vla_3C286_Lband.vla.d.ms
+2026-04-22 01:42:50	SEVERE	open::vla_3C286_Lband.vla.d.ms/Antenna	Exception Reported: Table vla_3C286_Lband.vla.d.ms/Antenna does not exist
+2026-04-22 01:45:10	INFO	plotms::::casa	Terminating casaplotms, PID: 53028
+2026-04-22 01:45:10	INFO	plotms::::casa	Waiting for casaplotms to terminate. Poll return code: None, PID: 53028
+2026-04-22 01:45:11	INFO	plotms::::casa	Finished shutting down casaplotms. Poll return code: -15, PID: 53028
